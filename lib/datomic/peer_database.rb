@@ -2,7 +2,12 @@
 
 module Datomic
   class PeerDatabase
+    # database
     @@databases = {}
+
+    # partitions
+    @@partitions = { :db => {}, :tx => {}, :user => {} }
+
 
     # ----------------------------------------------------------------------
     # create a new database.
@@ -11,6 +16,7 @@ module Datomic
       if @@databases.has_key?(uri)
         return Datomic::TxResult.new(:status => 501, :message => "database #{uri} already exits")
       else
+        # register a new database and initialize default
         @@databases[uri] = {}
         return Datomic::TxResult.new(:status => 0, :message => "successfully created a new database of #{uri}")
       end
@@ -35,7 +41,6 @@ module Datomic
     # connect to the databae.
     # ----------------------------------------------------------------------
     def self.connect(uri)
-
       if @@databases.has_key?(uri)
         return @@databases[uri]
       else

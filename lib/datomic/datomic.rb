@@ -2,6 +2,7 @@
 
 require 'logger'
 require 'yaml'
+require 'digest/sha1'
 
 module Datomic
   $logger = Logger.new(STDOUT)
